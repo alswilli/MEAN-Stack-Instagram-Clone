@@ -1,0 +1,38 @@
+.vl {
+  border-left: 2px solid black;
+  height: 30px;
+  margin-right: 8px;
+}
+
+mat-toolbar a {
+  display: inline-block;
+  margin: 0 10px;
+  color: Black;
+  text-decoration: none;
+  font-size: 24px;
+  /* font-style: normal; */
+  font-family: cursive;
+  font-weight: bold;
+}
+
+.fillSpace {
+  flex: 1 1 auto;
+}
+
+/* .mat-form-field-appearance-outline {
+  margin-top: 150px !important;
+
+  height: 100px !important
+} */
+
+.mat-form-field-underline {
+  display: none !important;
+  height: 0px !important;
+}
+
+.example-full-width {
+  margin: 80px;
+  min-width: 300px;
+  max-width: 300px;
+  width: 100%;
+}
