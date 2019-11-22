@@ -1,0 +1,32 @@
+<mat-card class="example-card" *ngFor="let post of posts">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Shiba Inu</mat-card-title>
+    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    <span class="fillSpace"></span>
+    <button mat-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item style="color:red;" (click)="onDelete(post.id)">Delete</button>
+      <button mat-menu-item [routerLink]="['/edit', post.id]">Edit</button>
+      <button mat-menu-item>Share</button>
+    </mat-menu>
+  </mat-card-header>
+  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+  <mat-card-actions>
+    <a mat-button>
+      <mat-icon>favorite</mat-icon>
+    </a>
+    <a mat-button>
+      <mat-icon>chat_bubble</mat-icon>
+    </a>
+    <a mat-button>
+      <mat-icon>send</mat-icon>
+    </a>
+  </mat-card-actions>
+  <mat-card-content>
+    <p>{{ post.caption }}</p>
+  </mat-card-content>
+</mat-card>
+<p class="info-text mat-body-1" *ngIf="posts.length <= 0">No posts added yet!</p>

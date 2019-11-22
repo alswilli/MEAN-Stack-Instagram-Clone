@@ -1,23 +1,33 @@
 <mat-toolbar>
   <span class="fillSpace"></span>
-  <button mat-button>
+  <a class="icon" mat-button routerLink="/record">
     <mat-icon>camera_alt</mat-icon>
-  </button>
+  </a>
+  <a class="icon" mat-button routerLink="/chat">
+    <mat-icon>send</mat-icon>
+  </a>
   <div class="vl"></div>
-  <a href="#">InstaClone</a>
-  <!-- <span class="fillSpace"></span> -->
+  <a routerLink="/">InstaClone</a>
   <mat-form-field class="example-full-width" appearance="outline" floatLabel="never">
       <input type="search" matInput placeholder="Search">
       <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
-  <button mat-button>
+  <!-- <ul>
+    <li>
+
+    </li>
+  </ul> -->
+  <a class="icon" mat-button routerLink="/discovery">
     <mat-icon>explore</mat-icon>
-  </button>
-  <button mat-button>
+  </a>
+  <a class="icon" mat-button routerLink="/create">
+    <mat-icon>add_box</mat-icon>
+  </a>
+  <a class="icon" mat-button routerLink="/activity">
     <mat-icon>favorite</mat-icon>
-  </button>
-  <button mat-button>
+  </a>
+  <a class="icon" mat-button routerLink="/profile">
     <mat-icon>account_circle</mat-icon>
-  </button>
+  </a>
   <span class="fillSpace"></span>
 </mat-toolbar>

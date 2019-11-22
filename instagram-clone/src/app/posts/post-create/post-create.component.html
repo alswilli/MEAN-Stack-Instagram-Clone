@@ -1,0 +1,17 @@
+<mat-card>
+  <form (submit)="onSavePost(postForm)" #postForm="ngForm">
+    <mat-form-field>
+      <input matInput
+        type="text"
+        name="caption"
+        [ngModel]="post?.caption"
+        placeholder="Write a caption..."
+        #caption="ngModel">
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit">Save Post</button>
+  </form>
+</mat-card>
+
