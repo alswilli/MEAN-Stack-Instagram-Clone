@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit, ɵCompiler_compileModuleSync__POST_R3__ } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 
 import { PostsService } from "../posts.service";
 import { Post } from "../post.model";
-import { _MatCheckboxRequiredValidatorModule } from '@angular/material';
+import { mimeType } from "./mime-type.validator";
 
 @Component({
   selector: "app-post-create",
@@ -12,12 +12,14 @@ import { _MatCheckboxRequiredValidatorModule } from '@angular/material';
   styleUrls: ["./post-create.component.css"]
 })
 export class PostCreateComponent implements OnInit {
+  enteredTitle = "";
+  enteredContent = "";
   post: Post;
+  isLoading = false;
   form: FormGroup;
   imagePreview: string;
   private mode = "create";
   private postId: string;
-
 
   constructor(
     public postsService: PostsService,
@@ -27,18 +29,29 @@ export class PostCreateComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       'caption': new FormControl(null, {validators: []}),
-      'image': new FormControl(null, {validators: [Validators.required]})
+      'image': new FormControl(null, {
+        validators: [Validators.required],
+        asyncValidators: [mimeType]})
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has("postId")) {
         this.mode = "edit";
         this.postId = paramMap.get("postId");
+        this.isLoading = true;
         this.postsService.getPost(this.postId).subscribe(postData => {
-          this.post = {id: postData._id, caption: postData.caption};
+          this.isLoading = false;
+          this.post = {
+            id: postData._id,
+            caption: postData.caption,
+            imagePath: postData.imagePath
+          };
+          console.log(this.post);
+          this.form.setValue({
+            'caption': this.post.caption,
+            'image': this.post.imagePath
+          });
         });
-        this.form.setValue({"caption": this.post.caption});
-      }
-      else {
+      } else {
         this.mode = "create";
         this.postId = null;
       }
@@ -46,11 +59,9 @@ export class PostCreateComponent implements OnInit {
   }
 
   onImagePicked(event: Event) {
-    const file = (event.target as HTMLInputElement).files[0]; // could be many, not just first image
+    const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({image: file});
     this.form.get('image').updateValueAndValidity();
-    console.log(file);
-    console.log(this.form);
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;
@@ -62,15 +73,17 @@ export class PostCreateComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    this.isLoading = true;
     if (this.mode === "create") {
-      this.postsService.addPost(this.form.value.caption);
-    }
-    else {
+      this.postsService.addPost( this.form.value.caption, this.form.value.image);
+    } else {
       this.postsService.updatePost(
         this.postId,
-        this.form.value.caption
+        this.form.value.caption,
+        this.form.value.image
       );
     }
     this.form.reset();
   }
 }
+
